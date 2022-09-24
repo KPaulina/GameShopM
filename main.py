@@ -26,6 +26,7 @@ class Games (HashModel):
     name: str
     price: float
     genre: str
+    quantity: int
 
     class Meta:
         datebase = redis
@@ -42,7 +43,8 @@ def format(pk: str):
         'id': game.pk,
         'name': game.name,
         'price': game.price,
-        'genre': game.genre
+        'genre': game.genre,
+        'quantity': game.quantity,
     }
 
 
@@ -51,6 +53,11 @@ def create(game: Games):
     return game.save()
 
 
-@app.get('games/{pk}')
+@app.get('/games/{pk}')
 def get(pk: str):
     return Games.get(pk)
+
+
+@app.delete('/games/{pk}')
+def delete(pk: str):
+    return Games.delete(pk)
